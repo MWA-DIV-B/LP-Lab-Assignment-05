@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="todoApp">
+<head>
+  <title>To-Do List</title>
+  <style>
+    /* Styles as before */
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    angular.module('todoApp', [])
+      .controller('TodoController', function($scope) {
+        $scope.tasks = [];
+        
+        $scope.addTask = function() {
+          var task = {
+            name: $scope.taskName,
+            completed: false
+          };
+          $scope.tasks.push(task);
+          $scope.taskName = '';
+        };
+        
+        $scope.removeTask = function(index) {
+          $scope.tasks.splice(index, 1);
+        };
+      });
+  </script>
+</head>
+<body>
+  <div class="container" ng-controller="TodoController">
+    <h1>To-Do List</h1>
+    <form ng-submit="addTask()">
+      <label for="taskName">New Task:</label>
+      <input type="text" id="taskName" name="taskName" ng-model="taskName" required>
+      <input type="submit" value="Add">
+    </form>
+    
+    <h2>Tasks</h2>
+    <ul>
+      <li ng-repeat="task in tasks">
+        <input type="checkbox" ng-model="task.completed">
+        <span ng-class="{'completed': task.completed}">{{task.name}}</span>
+        <button ng-click="removeTask($index)">Remove</button>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
